@@ -21,6 +21,12 @@ struct CalorieView: View {
     // identify the Data Types
     
     //1.
+    var totalCalories: Int = 0
+    var gender: String = "Female"
+    var height: Int = 170
+    var weight: Double = 50.7
+    var age: Int = 36
+    var activityLevel: String = "Sedentary"
 
     
     var body: some View {
@@ -30,7 +36,7 @@ struct CalorieView: View {
                 .font(.largeTitle)
                 .foregroundStyle(Color("ShadedBlue"))
             
-            Text("").font(.system(size: 64, weight: .bold))
+            Text("\(totalCalories)").font(.system(size: 64, weight: .bold))
                 .foregroundStyle(Color("AppBlue"))
             
             
@@ -43,7 +49,7 @@ struct CalorieView: View {
                     Image(systemName: "figure.stand.dress.line.vertical.figure")
                 }
                 
-                Picker("Select Gender", selection: .constant("Male")) {
+                Picker("Select Gender", selection: .constant(gender)) {
                     Text("Male").tag("Male")
                     Text("Female").tag("Female")
                 }
@@ -58,7 +64,7 @@ struct CalorieView: View {
                 }.font(.title2)
                 
                 
-                TextField("Enter weight in kg", value: .constant(50), formatter: {
+                TextField("Enter weight in kg", value: .constant(weight), formatter: {
                     let formatter = NumberFormatter()
                     formatter.numberStyle = .decimal
                     formatter.maximumFractionDigits = 2
@@ -79,7 +85,7 @@ struct CalorieView: View {
                 .padding(.top)
                 
                 
-                TextField("Enter height in cm", value: .constant(165), formatter: NumberFormatter() )
+                TextField("Enter height in cm", value: .constant(height), formatter: NumberFormatter() )
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.decimalPad)
                     .font(.title2)
@@ -94,7 +100,7 @@ struct CalorieView: View {
                 .font(.title2)
                 .padding(.top)
                 
-                TextField("Enter your age", value: .constant(25), formatter: NumberFormatter())
+                TextField("Enter your age", value: .constant(age), formatter: NumberFormatter())
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .font(.body)
                 
@@ -115,7 +121,7 @@ struct CalorieView: View {
                 }
                 .padding(.top)
                 
-                Picker("Select Activity Level", selection: .constant("Sedentary")) {
+                Picker("Select Activity Level", selection: .constant(activityLevel)) {
                     Text("Sedentary").tag("Sedentary")
                     Text("Lightly Active").tag("Lightly Active")
                     Text("Moderately Active").tag("Moderately Active")
