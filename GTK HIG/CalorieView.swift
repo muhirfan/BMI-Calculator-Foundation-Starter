@@ -7,16 +7,21 @@
 
 import SwiftUI
 
+/*
+ Steps
+ 1. Tambah @state di depan deklarasi variable, hanya variable yang perubahannya perlu diketahui untuk redraw View
+ 2. Gunakan variable tersebut pada view yang membutuhkannya.
+ 3. Gunakan varable dalam perhitungan jika diperlukan
+ */
+
+
 struct CalorieView: View {
     
     // declare the variables and constants
     // identify the Data Types
-    var totalCalories: Int = 0
-    var gender: String = "Female"
-    var height: Int = 170
-    var weight: Double = 50.7
-    var age: Int = 36
-    var activityLevel: String = "Sedentary"
+    
+    //1.
+
     
     var body: some View {
         VStack (spacing: 16) {
@@ -25,7 +30,7 @@ struct CalorieView: View {
                 .font(.largeTitle)
                 .foregroundStyle(Color("ShadedBlue"))
             
-            Text("0").font(.system(size: 64, weight: .bold))
+            Text("").font(.system(size: 64, weight: .bold))
                 .foregroundStyle(Color("AppBlue"))
             
             
@@ -38,7 +43,7 @@ struct CalorieView: View {
                     Image(systemName: "figure.stand.dress.line.vertical.figure")
                 }
                 
-                Picker("Select Gender", selection: .constant(gender)) {
+                Picker("Select Gender", selection: .constant("Male")) {
                     Text("Male").tag("Male")
                     Text("Female").tag("Female")
                 }
@@ -52,7 +57,13 @@ struct CalorieView: View {
                     Image(systemName: "scalemass")
                 }.font(.title2)
                 
-                TextField("Enter weight in kg", text: .constant("\(weight)"))
+                
+                TextField("Enter weight in kg", value: .constant(50), formatter: {
+                    let formatter = NumberFormatter()
+                    formatter.numberStyle = .decimal
+                    formatter.maximumFractionDigits = 2
+                    return formatter
+                }())
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.decimalPad)
                     .font(.title2)
@@ -68,8 +79,9 @@ struct CalorieView: View {
                 .padding(.top)
                 
                 
-                TextField("Enter height in cm", text: .constant("\(height)"))
+                TextField("Enter height in cm", value: .constant(165), formatter: NumberFormatter() )
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .keyboardType(.decimalPad)
                     .font(.title2)
                 
                 
@@ -82,7 +94,7 @@ struct CalorieView: View {
                 .font(.title2)
                 .padding(.top)
                 
-                TextField("Enter your age", text: .constant("\(age)"))
+                TextField("Enter your age", value: .constant(25), formatter: NumberFormatter())
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .font(.body)
                 
@@ -103,7 +115,7 @@ struct CalorieView: View {
                 }
                 .padding(.top)
                 
-                Picker("Select Activity Level", selection: .constant(activityLevel)) {
+                Picker("Select Activity Level", selection: .constant("Sedentary")) {
                     Text("Sedentary").tag("Sedentary")
                     Text("Lightly Active").tag("Lightly Active")
                     Text("Moderately Active").tag("Moderately Active")
@@ -123,7 +135,7 @@ struct CalorieView: View {
             Button {
                 
                 // Put what to calculate
-                var totalCaloriesNeed: Double  = 0
+        
                 var bmr: Double = 0 //  Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) formulas
 
 
@@ -137,21 +149,15 @@ struct CalorieView: View {
                 ]
 
                 // first we calculate the BMR
-                if gender.lowercased() == "female" {
-                   bmr = (10 * weight) + (6.25 * Double(height)) - (5 * Double(age)) - 161
-                } else {
-                   bmr = (10 * weight) + (6.25 * Double(height)) - (5 * Double(age)) + 5
-                }
-
-                totalCaloriesNeed = bmr * (activityMultipliers[activityLevel.lowercased()] ?? 1.2)
+        
+                //3.
                 
-                print("Your total calories needed is \(totalCaloriesNeed)")
 
                 
                 
             } label: {
                 Text("Calculate")
-                    .foregroundStyle(Color("White"))
+                    .foregroundStyle(Color.appWhite)
                     .padding(.vertical, 20)
                     .frame(maxWidth: .infinity)
                     .background(Color("AppBlue"))
